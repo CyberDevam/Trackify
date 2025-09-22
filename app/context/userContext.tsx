@@ -39,7 +39,7 @@
 
 
 // contexts/UserContext.js
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
 const UserContext = createContext();
@@ -56,7 +56,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [ip, setIp] = useState("10.131.78.227");
+  const [ip, setIp] = useState("10.34.160.236");
   // Function to fetch user data
   const fetchUser = async (userId) => {
     if (!userId) {
@@ -88,7 +88,7 @@ export const UserProvider = ({ children }) => {
     setError(null);
   };
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     setUser,
     loading,
@@ -96,7 +96,7 @@ export const UserProvider = ({ children }) => {
     fetchUser,
     clearUser,
     ip
-  };
+  }), [user, loading, error, ip]);
 
   return (
     <UserContext.Provider value={value}>
